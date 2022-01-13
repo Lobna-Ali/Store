@@ -8,7 +8,10 @@ export type Product = {
 };
 
 export class ProductModel {
-
+    /**
+     * Get all Products
+     * @returns Array<Product>
+     */
     async index(): Promise<Product[]> {
         try {
             const connection = await client.connect();
@@ -23,6 +26,11 @@ export class ProductModel {
         }
     }
 
+    /**
+     * Get the product for a certain id
+     * @param { number } id 
+     * @returns Promise<Product>
+     */
     async show(id: number): Promise<Product> {
         try {
             const connection = await client.connect();
@@ -37,11 +45,16 @@ export class ProductModel {
         }
     }
 
-    async create(name: string, price?: number, category?: string): Promise<Product> {
+    /**
+     * Create new product
+     * @param { Product } product 
+     * @returns Promise<Product>
+     */
+    async create(product: Product): Promise<Product> {
         try {
             const connection = await client.connect();
             const sql = "INSERT INTO product (name, price, category) VALUES($1, $2, $3) RETURNING *";
-            const result = await connection.query(sql, [name, price, category]);
+            const result = await connection.query(sql, [product.name, product.price, product.category]);
             connection.release();
             return result.rows[0];
         } catch (error) {

@@ -4,11 +4,16 @@ export type User = {
     id: number;
     firstName: string;
     lastName: string;
+    userName: string;
     password: string;
 };
 
 export class UserModel {
 
+    /**
+     * get all users
+     * @returns Promise<User[]>
+     */
     async index(): Promise<User[]> {
         try {
             const connection = await client.connect();
@@ -23,11 +28,17 @@ export class UserModel {
         }
     }
 
-    async show(firstName: string, lastName: string, password: string): Promise<User> {
+    /**
+     * Get user by his user name and password
+     * @param { string } userName 
+     * @param { string } password 
+     * @returns Promise<User>
+     */
+    async show(userName: string, password: string): Promise<User> {
         try {
             const connection = await client.connect();
-            const sql = "SELECT * FROM user WHERE firstName=($1) AND lastName = ($2)";
-            const result = await connection.query(sql, [firstName, lastName]);
+            const sql = "SELECT * FROM user WHERE userName=($1)";
+            const result = await connection.query(sql, [userName]);
             connection.release();
             return result.rows[0];
         } catch (error) {
@@ -36,12 +47,15 @@ export class UserModel {
             );
         }
     }
-
-    async create(firstName: string, lastName: string, password: string): Promise<User> {
+    /**
+     * 
+     * @param { User } user 
+     */
+    async create(user: User): Promise<User> {
         try {
             const connection = await client.connect();
             const sql = "INSERT INTO user (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *";
-            const result = await connection.query(sql, [firstName, lastName, password]);
+            const result = await connection.query(sql, [user.firstName, user.lastName, user.password, user.userName]);
             connection.release();
             return result.rows[0];
         } catch (error) {
