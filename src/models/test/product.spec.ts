@@ -28,8 +28,8 @@ describe("Product Model", () => {
             category: 'electronics',
             price: 8000
         });
+        delete result.id;
         expect(result).toEqual({
-            id: 2,
             name: 'laptop',
             category: 'electronics',
             price: '8000.00'

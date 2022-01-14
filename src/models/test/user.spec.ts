@@ -30,8 +30,8 @@ describe("User Model", () => {
       user_name: 'unit_test',
       password: '1234'
     });
+    delete result.id
     expect(result).toEqual({
-      id: 2,
       first_name: 'unit',
       last_name: 'test',
       user_name: 'unit_test',
@@ -45,8 +45,8 @@ describe("User Model", () => {
   });
   it('show method should get user by username', async () => {
     const result = await userModel.show('default_value');
+    delete result.id;
     expect(result).toEqual({
-      id: 1,
       first_name: 'default',
       last_name: 'value',
       user_name: 'default_value',
