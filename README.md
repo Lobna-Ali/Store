@@ -25,7 +25,7 @@
 
 ### Add new user
 http://localhost:3000/api/register/user
-## payload example
+#### payload example
 {
 
     "first_name": "udacity",
