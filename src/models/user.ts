@@ -47,8 +47,9 @@ export class UserModel {
     }
   }
   /**
-   *
+   * create new user
    * @param { User } user
+   * @returns Promise<User>
    */
   async create(user: User): Promise<User> {
     try {

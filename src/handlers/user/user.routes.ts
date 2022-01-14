@@ -11,35 +11,35 @@ export const router = express.Router();
  * @returns void
  */
 router.post("/user", async (req: Request, res: Response) => {
-  try {
-    const { first_name, last_name, password } = req.body;
-    if (!(first_name && last_name && password)) {
-      return res.status(400).send({ ErrorMessage: "Missing required inputs" });
+    try {
+        const { first_name, last_name, password } = req.body;
+        if (!(first_name && last_name && password)) {
+            return res.status(400).send({ ErrorMessage: "Missing required inputs" });
+        }
+        const user_name = first_name + "_" + last_name;
+        const existingUser = await getUser(user_name);
+        if (existingUser) {
+            return res
+                .status(400)
+                .send("User Already Exist. Please try With different credentials");
+        }
+        const encryptedPass = await bcrypt.hash(password + "pepper", 14);
+        const user = await createUser({
+            first_name,
+            last_name,
+            user_name,
+            password: encryptedPass,
+        });
+        const token = jwt.sign({ user_name: user.user_name }, "XYZ", {
+            expiresIn: "2h",
+        });
+        delete user.password;
+        return res.status(200).json({ ...user, token });
+    } catch (err) {
+        return res
+            .status(500)
+            .json("Something went wrong, Please try again later.");
     }
-    const user_name = first_name + "_" + last_name;
-    const existingUser = await getUser(user_name);
-    if (existingUser) {
-      return res
-        .status(400)
-        .send("User Already Exist. Please try With different credentials");
-    }
-    const encryptedPass = await bcrypt.hash(password + "pepper", 14);
-    const user = await createUser({
-      first_name,
-      last_name,
-      user_name,
-      password: encryptedPass,
-    });
-    const token = jwt.sign({ user_name: user.user_name }, "XYZ", {
-      expiresIn: "2h",
-    });
-    delete user.password;
-    return res.status(200).json({ ...user, token });
-  } catch (err) {
-    return res
-      .status(500)
-      .json("Something went wrong, Please try again later.");
-  }
 });
 
 /**
@@ -49,26 +49,28 @@ router.post("/user", async (req: Request, res: Response) => {
  * @returns void
  */
 router.get("/userDetails", async (req: Request, res: Response) => {
-  try {
-    const token = req.headers["authorization"];
-    let userAfterDecode;
+    try {
+        const token = req.headers["authorization"];
+        const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
 
-    await jwt.verify(token, "XYZ", function (err, decoded) {
-      if (err) {
-        return res.status(401).send("Please provide a valid token");
-      }
+            return {
+                err,
+                decoded
+            };
+        });
 
-      return (userAfterDecode = decoded);
-    });
-    console.log(userAfterDecode);
-    const user = await getUser(userAfterDecode.user_name);
-    delete user.password;
-    return res.status(200).json({ ...user });
-  } catch (err) {
-    return res
-      .status(500)
-      .json("Something went wrong, Please try again later.");
-  }
+        if (jwtDetails.err) {
+            return res.status(401).send("Please provide a valid token");
+        }
+        const userAfterDecode = jwtDetails.decoded;
+        const user = await getUser(userAfterDecode.user_name);
+        delete user.password;
+        return res.status(200).json({ ...user });
+    } catch (err) {
+        return res
+            .status(500)
+            .json("Something went wrong, Please try again later.");
+    }
 });
 
 /**
@@ -79,21 +81,23 @@ router.get("/userDetails", async (req: Request, res: Response) => {
  */
 router.get("/users", async (req: Request, res: Response) => {
     try {
-      const token = req.headers["authorization"];
-  
-      await jwt.verify(token, "XYZ", function (err, decoded) {
-        if (err) {
-          return res.status(401).send("Please provide a valid token");
-        }
-  
-        return decoded;
-      });
+        const token = req.headers["authorization"];
 
-      const users = await getAllUsers();
-      return res.status(200).json(users);
+        const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
+            return {
+                err,
+                decoded
+            };
+        });
+
+        if (jwtDetails.err) {
+            return res.status(401).send("Please provide a valid token");
+        }
+        const users = await getAllUsers();
+        return res.status(200).json(users);
     } catch (err) {
-      return res
-        .status(500)
-        .json("Something went wrong, Please try again later.");
+        return res
+            .status(500)
+            .json("Something went wrong, Please try again later.");
     }
-  });
+});
