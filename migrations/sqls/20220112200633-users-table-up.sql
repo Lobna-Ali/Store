@@ -1,2 +1,2 @@
 /* Replace with your SQL commands */
-CREATE TABLE "user" (id SERIAL PRIMARY KEY, first_name VARCHAR(100) NOT NULL, last_name VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL, password CHAR(60) NOT NULL);
+CREATE TABLE "user" (id SERIAL PRIMARY KEY, first_name VARCHAR(100) NOT NULL, last_name VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL, password VARCHAR(60) NOT NULL);
