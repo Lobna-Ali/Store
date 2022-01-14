@@ -4,9 +4,14 @@
 
 - Run npm install
 
+#### To run migration files
+
+- db-migrate up
+
 #### To Run Test
 
 - Run npm run test.
+- NOTE: I am using ubuntu so in the test script you will find export with the ENV variable, please remove export if you are using windows
 
 #### To Run Build
 
