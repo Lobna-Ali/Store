@@ -4,6 +4,10 @@
 
 - Run npm install
 
+#### To run migration files
+
+- db-migrate up
+
 #### To Run Test
 
 - Run npm run test.
