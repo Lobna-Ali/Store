@@ -10,7 +10,7 @@
     "build": "npx tsc",
     "start": "nodemon --exec npx \"ts-node\" ./src/server.ts",
     "jasmine": "jasmine",
-    "test": "export ENV=test && db-migrate --env test down -c 5 && db-migrate --env test up -c 5 && jasmine-ts && db-migrate --env test down -c 5"
+    "test": "export ENV=test && db-migrate --env test down  -c 6 && db-migrate --env test up && jasmine-ts"
   },
   "author": "lobna ali",
   "license": "ISC",

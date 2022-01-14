@@ -16,13 +16,13 @@ export class OrderDetailsModel {
   async show(order_id: number): Promise<OrderDetails[]> {
     try {
       const connection = await client.connect();
-      const sql = "SELECT * FROM orderDetils WHERE order_id=($1)";
+      const sql = "SELECT * FROM orderdetails WHERE order_id=($1)";
       const result = await connection.query(sql, [order_id]);
       connection.release();
-      return result.rows;
+      return result.rows[0];
     } catch (error) {
       throw new Error(
-        `Something went wrong while getting certain product with error: ${error}`
+        `Something went wrong while getting certain orderDetails with error: ${error}`
       );
     }
   }
