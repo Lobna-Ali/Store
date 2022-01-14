@@ -35,11 +35,11 @@ http://localhost:3000/api/register/user
 
 ### get user details
 http://localhost:3000/api/userDetails
-## Token provide it in the header under the name authorization
+#### Provide Token in the header under the name authorization
 
 ### get all users
 http://localhost:3000/api/users
-## Provide Token in the header under the name authorization
+#### Provide Token in the header under the name authorization
 
 ## Product api
 
