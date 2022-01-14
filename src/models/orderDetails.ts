@@ -11,9 +11,9 @@ export class OrderDetailsModel {
   /**
    * get the order details for a certain order
    * @param {number} order_id
-   * @returns Promise<OrderDetails>
+   * @returns Promise<OrderDetails[]>
    */
-  async show(order_id: number): Promise<OrderDetails> {
+  async show(order_id: number): Promise<OrderDetails[]> {
     try {
       const connection = await client.connect();
       const sql = "SELECT * FROM orderDetils WHERE order_id=($1)";

@@ -19,12 +19,10 @@ router.post("/register/user", async (req: Request, res: Response) => {
     const user_name = first_name + "_" + last_name;
     const existingUser = await getUser(user_name);
     if (existingUser) {
-      return res
-        .status(400)
-        .send({
-          errorMessage:
-            "User Already Exist. Please try With different credentials",
-        });
+      return res.status(400).send({
+        errorMessage:
+          "User Already Exist. Please try With different credentials",
+      });
     }
     const encryptedPass = await bcrypt.hash(password + "pepper", 14);
     const user = await createUser({

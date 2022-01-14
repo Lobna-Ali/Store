@@ -3,6 +3,7 @@ import process from "process";
 import bodyParser from "body-parser";
 import { router as userRouter } from "../src/handlers/user/user.routes";
 import { router as productRouter } from "../src/handlers/product/product.routes";
+import { router as orderRouter } from "../src/handlers/order/order.routes";
 const app = express();
 const jsonParser = bodyParser.json();
 
@@ -15,5 +16,6 @@ app.listen(port, async () => {
 
 app.use("/api", jsonParser, userRouter);
 app.use("/api", jsonParser, productRouter);
+app.use("/api", jsonParser, orderRouter);
 
 export default app;
