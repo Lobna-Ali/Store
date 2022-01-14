@@ -3,10 +3,10 @@ import { User, UserModel } from "../../models/user";
 const userModel = new UserModel();
 
 /**
- * get all users
- * @param { Response } res
+ * get all users by calling Model file
+ * @returns Promise<User[] | null>
  */
-export const getAllUsers = async () => {
+export const getAllUsers = async (): Promise<User[] | null> => {
   try {
     const users = await userModel.index();
 
@@ -17,10 +17,11 @@ export const getAllUsers = async () => {
 };
 
 /**
- * get all users
- * @param { Response } res
+ * get certain user by calling Model file
+ * @param { string } user_name
+ * @returns Promise<User | null>
  */
-export const getUser = async (user_name: string) => {
+export const getUser = async (user_name: string): Promise<User | null> => {
   try {
     const user = await userModel.show(user_name);
 
@@ -31,10 +32,11 @@ export const getUser = async (user_name: string) => {
 };
 
 /**
- * get all users
- * @param { Response } res
+ * create new user by calling Model file
+ * @param user
+ * @returns Promise<User | null>
  */
-export const createUser = async (user: User) => {
+export const createUser = async (user: User): Promise<User | null> => {
   try {
     const userCreated = await userModel.create(user);
 

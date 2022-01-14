@@ -1,7 +1,7 @@
 import client from "../database";
 
 export type Product = {
-  id: number;
+  id?: number;
   name: string;
   price?: number;
   category?: string;
@@ -36,6 +36,25 @@ export class ProductModel {
       const connection = await client.connect();
       const sql = "SELECT * FROM product WHERE id=($1)";
       const result = await connection.query(sql, [id]);
+      connection.release();
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(
+        `Something went wrong while getting certain product with error: ${error}`
+      );
+    }
+  }
+
+  /**
+   * Get the product for a certain name
+   * @param { string } name
+   * @returns Promise<Product>
+   */
+  async showByName(name: string): Promise<Product> {
+    try {
+      const connection = await client.connect();
+      const sql = "SELECT * FROM product WHERE name=($1)";
+      const result = await connection.query(sql, [name]);
       connection.release();
       return result.rows[0];
     } catch (error) {
