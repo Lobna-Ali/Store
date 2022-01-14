@@ -21,7 +21,7 @@
 - Run npm run start
 
 
-#### User api
+## User api
 
 ### Add new user
 http://localhost:3000/api/register/user
@@ -41,18 +41,18 @@ http://localhost:3000/api/userDetails
 http://localhost:3000/api/users
 ## Provide Token in the header under the name authorization
 
-#### Product api
+## Product api
 
 ### Add new product
 http://localhost:3000/api/new/product
-## payload example
+#### payload example
 {
     name: 'tv',
     category: 'elec',
     price: 8000
 }
 
-## Provide Token in the header under the name authorization
+#### Provide Token in the header under the name authorization
 
 ### get product details
 http://localhost:3000/api/product/:id
@@ -61,7 +61,7 @@ http://localhost:3000/api/product/:id
 http://localhost:3000/api/products
 
 
-#### Order api
+## Order api
 
 ### get order for user
 http://localhost:3000/api/order/:user-id
