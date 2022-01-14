@@ -2,6 +2,9 @@ import express, { Request, Response } from "express";
 import { getUser, createUser, getAllUsers } from "./user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { verifyToken } from "../../authentication/authentication";
+import process from "process";
+
 export const router = express.Router();
 
 /**
@@ -24,7 +27,12 @@ router.post("/register/user", async (req: Request, res: Response) => {
           "User Already Exist. Please try With different credentials",
       });
     }
-    const encryptedPass = await bcrypt.hash(password + "pepper", 14);
+    const { ENCRYPT_PEPPER, ENCRYPT_SALT } = process.env;
+
+    const encryptedPass = await bcrypt.hash(
+      password + ENCRYPT_PEPPER,
+      parseInt(ENCRYPT_SALT)
+    );
     const user = await createUser({
       first_name,
       last_name,
@@ -52,12 +60,7 @@ router.post("/register/user", async (req: Request, res: Response) => {
 router.get("/userDetails", async (req: Request, res: Response) => {
   try {
     const token = req.headers["authorization"];
-    const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
-      return {
-        err,
-        decoded,
-      };
-    });
+    const jwtDetails = await verifyToken(token);
 
     if (jwtDetails.err) {
       return res
@@ -85,12 +88,7 @@ router.get("/users", async (req: Request, res: Response) => {
   try {
     const token = req.headers["authorization"];
 
-    const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
-      return {
-        err,
-        decoded,
-      };
-    });
+    const jwtDetails = await verifyToken(token);
 
     if (jwtDetails.err) {
       return res

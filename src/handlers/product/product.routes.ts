@@ -5,7 +5,7 @@ import {
   getProductByName,
   getProductById,
 } from "./product";
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../../authentication/authentication";
 export const router = express.Router();
 
 /**
@@ -29,12 +29,7 @@ router.post("/new/product", async (req: Request, res: Response) => {
       return res.status(400).send({ errorMessage: "Product Already Exist." });
     }
 
-    const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
-      return {
-        err,
-        decoded,
-      };
-    });
+    const jwtDetails = await verifyToken(token);
 
     if (jwtDetails.err) {
       return res

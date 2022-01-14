@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
-
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../../authentication/authentication";
 import { getUserOrder } from "./order";
 export const router = express.Router();
 
@@ -14,12 +13,7 @@ router.get("/order/:user_id", async (req: Request, res: Response) => {
   try {
     const { user_id } = req.params;
     const token = req.headers["authorization"];
-    const jwtDetails = await jwt.verify(token, "XYZ", function (err, decoded) {
-      return {
-        err,
-        decoded,
-      };
-    });
+    const jwtDetails = await verifyToken(token);
 
     if (jwtDetails.err) {
       return res
