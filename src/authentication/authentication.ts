@@ -20,7 +20,7 @@ export const verifyToken = async (token: string): Promise<{ err; decoded }> => {
  * @param ecnryptedData
  * @returns string
  */
-export const getToken = (ecnryptedData: any): string => {
+export const getToken = (ecnryptedData): string => {
   return jwt.sign({ ...ecnryptedData }, TOKEN_SECRET, {
     expiresIn: "2h",
   });

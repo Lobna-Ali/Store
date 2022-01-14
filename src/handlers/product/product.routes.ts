@@ -37,7 +37,6 @@ router.post("/new/product", async (req: Request, res: Response) => {
       return res.status(400).send({ errorMessage: "Product Already Exist." });
     }
 
-
     const newProduct = await createProduct({ name, price, category });
     return res.status(200).json({ ...newProduct });
   } catch (err) {
