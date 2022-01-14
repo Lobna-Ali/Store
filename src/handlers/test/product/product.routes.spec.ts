@@ -37,6 +37,10 @@ describe("Product Routes", () => {
         spyOn(ProductFn, 'getProductByName').and.returnValue(Promise.resolve({
             name: 'tv'
         }));
+        spyOn(Auth, 'verifyToken').and.returnValue(Promise.resolve({
+            decoded: {},
+            err: false
+        }));
         await supertest(app).post('/api/new/product').send({
             name: 'tv',
             category: 'elec',

@@ -24,11 +24,6 @@ router.post("/new/product", async (req: Request, res: Response) => {
         .send({ errorMessage: "Product name is not provided" });
     }
 
-    const existingproduct = await getProductByName(name);
-    if (existingproduct) {
-      return res.status(400).send({ errorMessage: "Product Already Exist." });
-    }
-
     const jwtDetails = await verifyToken(token);
 
     if (jwtDetails.err) {
@@ -36,6 +31,12 @@ router.post("/new/product", async (req: Request, res: Response) => {
         .status(401)
         .send({ errorMessage: "Please provide a valid token" });
     }
+
+    const existingproduct = await getProductByName(name);
+    if (existingproduct) {
+      return res.status(400).send({ errorMessage: "Product Already Exist." });
+    }
+
 
     const newProduct = await createProduct({ name, price, category });
     return res.status(200).json({ ...newProduct });
