@@ -1,5 +1,9 @@
 # Store Project
 
+#### PORT For Databae => 5432
+
+#### PORT For localhost => 3000
+
 #### Install package added in package.json
 
 - Run npm install
