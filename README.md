@@ -29,6 +29,18 @@
 
 - Run npm run start
 
+#### ENV variables EXMAPLE!
+
+  POSTGRES_HOST = 'localhost' 
+  POSTGRES_DB = 'Store' // Database store 
+  POSTGRES_USER = 'postgres' // User
+  POSTGRES_PASSWORD = 'postgres' // password
+  POSTGRES_TEST_DB = 'Store_test' // Database store for test
+  ENV = 'dev' // ENV database configuration
+  TOKEN_SECRET= 'XYZ' // SECERET Token for JWT
+  ENCRYPT_PEPPER = 'pepper' // Pepper for bcrybt 
+  ENCRYPT_SALT = '14' // SALT for bcrybt
+
 ## User api
 
 ### Add new user
